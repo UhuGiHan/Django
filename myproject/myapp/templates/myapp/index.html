@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Blog Cá Nhân</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Blog Cá Nhân</h1>
+        <div>
+            {% if user.is_authenticated %}
+                Chào, {{ user.username }} | <a href="{% url 'logout' %}">Đăng xuất</a> | 
+                <a href="{% url 'create_post' %}">Viết bài</a>
+            {% else %}
+                <a href="{% url 'login' %}">Đăng nhập</a> | <a href="{% url 'register' %}">Đăng ký</a>
+            {% endif %}
+        </div>
+    </header>
+    <div class="container">
+        {% for post in posts %}
+        <div class="post">
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+            <p class="meta">Tác giả: {{ post.author.username }} | Ngày: {{ post.created_at }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
