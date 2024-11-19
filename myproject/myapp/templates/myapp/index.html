@@ -1,28 +1,34 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  <!-- Định nghĩa loại tài liệu HTML5 cho trang web. -->
 <html>
 <head>
-    {% load static %}
-    <title>Blog Cá Nhân</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">
+    {% load static %}  <!-- Tải các tệp tĩnh (static files) như hình ảnh, CSS, JS để có thể sử dụng trong template. -->
+    <title>Blog Cá Nhân</title>  <!-- Tiêu đề của trang sẽ xuất hiện trên thanh tiêu đề của trình duyệt. -->
+    <!-- Liên kết tới tệp CSS để tạo kiểu cho trang blog cá nhân. -->
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">  <!-- Tải tệp CSS từ thư mục static của ứng dụng 'myapp'. -->
 </head>
 <body>
+    <!-- Phần header của trang, chứa tên blog và các liên kết điều hướng. -->
     <header>
-        <h1>Blog Cá Nhân</h1>
+        <h1>Blog Cá Nhân</h1>  <!-- Tiêu đề chính của trang blog. -->
         <div>
-            {% if user.is_authenticated %}
-                Chào, {{ user.username }} | <a href="{% url 'logout' %}">Đăng xuất</a> | 
-                <a href="{% url 'create_post' %}">Viết bài</a>
+            {% if user.is_authenticated %}  <!-- Kiểm tra nếu người dùng đã đăng nhập (authenticated). -->
+                Chào, {{ user.username }}  <!-- Hiển thị tên người dùng sau khi đăng nhập. -->
+                | <a href="{% url 'logout' %}">Đăng xuất</a>  <!-- Liên kết để đăng xuất người dùng, trỏ đến URL 'logout'. -->
+                | <a href="{% url 'create_post' %}">Viết bài</a>  <!-- Liên kết để người dùng viết bài mới, trỏ đến URL 'create_post'. -->
             {% else %}
-                <a href="{% url 'login' %}">Đăng nhập</a> | <a href="{% url 'register' %}">Đăng ký</a>
+                <a href="{% url 'login' %}">Đăng nhập</a>  <!-- Liên kết để người dùng đăng nhập, trỏ đến URL 'login'. -->
+                | <a href="{% url 'register' %}">Đăng ký</a>  <!-- Liên kết để người dùng đăng ký tài khoản, trỏ đến URL 'register'. -->
             {% endif %}
         </div>
     </header>
+
+    <!-- Phần nội dung chính của trang, chứa các bài viết blog. -->
     <div class="container">
-        {% for post in posts %}
+        {% for post in posts %}  <!-- Lặp qua tất cả các bài viết (posts) để hiển thị. -->
         <div class="post">
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.content }}</p>
-            <p class="meta">Tác giả: {{ post.author.username }} | Ngày: {{ post.created_at }}</p>
+            <h2>{{ post.title }}</h2>  <!-- Tiêu đề của bài viết. -->
+            <p>{{ post.content }}</p>  <!-- Nội dung của bài viết. -->
+            <p class="meta">Tác giả: {{ post.author.username }} | Ngày: {{ post.created_at }}</p>  <!-- Hiển thị tên tác giả và ngày tạo bài viết. -->
         </div>
         {% endfor %}
     </div>

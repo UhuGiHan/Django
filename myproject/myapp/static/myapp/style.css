@@ -7,7 +7,7 @@ body {
     background-color: #f9f9f9;
 }
 
-/* Header */
+/* Tiêu đề */
 header {
     background-color: #4CAF50;
     color: white;
@@ -32,7 +32,7 @@ header a:hover {
     text-decoration: underline;
 }
 
-/* Main Content */
+/*Nội dung chính*/
 .container {
     width: 80%;
     margin: 20px auto;
@@ -42,7 +42,7 @@ header a:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Form Styling */
+/* Kiểu dáng biểu mẫu */
 form {
     display: flex;
     flex-direction: column;
@@ -72,7 +72,8 @@ form button:hover {
     background-color: #45a049;
 }
 
-/* Link Back */
+
+/*Liên kết quay lại */
 .back-link {
     display: inline-block;
     margin-top: 20px;
@@ -84,7 +85,7 @@ form button:hover {
     text-decoration: underline;
 }
 
-/* Post List */
+/*Danh sách bài viết*/
 .post {
     margin-bottom: 20px;
     padding-bottom: 10px;
