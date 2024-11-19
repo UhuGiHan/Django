@@ -9,6 +9,9 @@
         <div style="float: right;">
             {% if user.is_authenticated %}
                 Chào, {{ user.username }} | 
+                {% if user.is_superuser %}
+                    (Superuser) | 
+                {% endif %}
                 <a href="{% url 'create_post' %}">Viết bài</a> | 
                 <a href="{% url 'logout' %}">Đăng xuất</a>
             {% else %}
@@ -23,6 +26,12 @@
             <h2>{{ post.title }}</h2>
             <p>{{ post.content }}</p>
             <p><i>Tác giả: {{ post.author.username }} | Ngày: {{ post.created_at }}</i></p>
+            {% if user.is_superuser %}
+                <form method="POST" action="{% url 'delete_post' post.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa bài viết này?');">Xóa bài</button>
+                </form>
+            {% endif %}
             <hr>
         {% endfor %}
     </section>

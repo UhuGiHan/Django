@@ -9,3 +9,5 @@
 4. cd myproject
 5. python manage.py runserver
 6. Vào trình duyệt nhập địa chỉ http://127.0.0.1:8000/
+
+# Tài khoản superuser là '''admin/123456'''

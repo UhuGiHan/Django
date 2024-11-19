@@ -59,3 +59,16 @@ def create_post(request):
         else:
             messages.error(request, 'Vui lòng điền đầy đủ tiêu đề và nội dung.')
     return render(request, 'myapp/create_post.html')
+
+
+from django.shortcuts import get_object_or_404
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.user.is_superuser:  # Chỉ superuser được phép xóa
+        post.delete()
+        messages.success(request, 'Bài viết đã được xóa thành công.')
+    else:
+        messages.error(request, 'Bạn không có quyền xóa bài viết này.')
+    return redirect('index')
