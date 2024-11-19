@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Viết bài mới</title>
+</head>
+<body>
+    <h2>Viết bài mới</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="title">Tiêu đề:</label><br>
+        <input type="text" name="title" id="title" required><br><br>
+
+        <label for="content">Nội dung:</label><br>
+        <textarea name="content" id="content" rows="10" required></textarea><br><br>
+
+        <button type="submit">Đăng bài</button>
+    </form>
+    <p><a href="{% url 'index' %}">Quay lại trang chủ</a></p>
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+</body>
+</html>
