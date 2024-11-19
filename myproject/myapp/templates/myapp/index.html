@@ -1,34 +1,36 @@
-<!DOCTYPE html>  <!-- Định nghĩa loại tài liệu HTML5 cho trang web. -->
+<!DOCTYPE html>
 <html>
 <head>
-    {% load static %}  <!-- Tải các tệp tĩnh (static files) như hình ảnh, CSS, JS để có thể sử dụng trong template. -->
-    <title>Blog Cá Nhân</title>  <!-- Tiêu đề của trang sẽ xuất hiện trên thanh tiêu đề của trình duyệt. -->
-    <!-- Liên kết tới tệp CSS để tạo kiểu cho trang blog cá nhân. -->
-    <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">  <!-- Tải tệp CSS từ thư mục static của ứng dụng 'myapp'. -->
+    {% load static %}
+    <title>Blog Cá Nhân</title>
+    <!-- Link đến file CSS tĩnh để định dạng giao diện -->
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">
 </head>
 <body>
-    <!-- Phần header của trang, chứa tên blog và các liên kết điều hướng. -->
     <header>
-        <h1>Blog Cá Nhân</h1>  <!-- Tiêu đề chính của trang blog. -->
+        <h1>Blog Cá Nhân</h1>
         <div>
-            {% if user.is_authenticated %}  <!-- Kiểm tra nếu người dùng đã đăng nhập (authenticated). -->
-                Chào, {{ user.username }}  <!-- Hiển thị tên người dùng sau khi đăng nhập. -->
-                | <a href="{% url 'logout' %}">Đăng xuất</a>  <!-- Liên kết để đăng xuất người dùng, trỏ đến URL 'logout'. -->
-                | <a href="{% url 'create_post' %}">Viết bài</a>  <!-- Liên kết để người dùng viết bài mới, trỏ đến URL 'create_post'. -->
+            <!-- Kiểm tra nếu người dùng đã đăng nhập -->
+            {% if user.is_authenticated %}
+                <!-- Hiển thị lời chào kèm tên người dùng và các tùy chọn đăng xuất, viết bài -->
+                Chào, {{ user.username }} | <a href="{% url 'logout' %}">Đăng xuất</a> | 
+                <a href="{% url 'create_post' %}">Viết bài</a>
             {% else %}
-                <a href="{% url 'login' %}">Đăng nhập</a>  <!-- Liên kết để người dùng đăng nhập, trỏ đến URL 'login'. -->
-                | <a href="{% url 'register' %}">Đăng ký</a>  <!-- Liên kết để người dùng đăng ký tài khoản, trỏ đến URL 'register'. -->
+                <!-- Nếu chưa đăng nhập, hiển thị liên kết đăng nhập và đăng ký -->
+                <a href="{% url 'login' %}">Đăng nhập</a> | <a href="{% url 'register' %}">Đăng ký</a>
             {% endif %}
         </div>
     </header>
-
-    <!-- Phần nội dung chính của trang, chứa các bài viết blog. -->
     <div class="container">
-        {% for post in posts %}  <!-- Lặp qua tất cả các bài viết (posts) để hiển thị. -->
+        <!-- Lặp qua danh sách bài viết để hiển thị từng bài -->
+        {% for post in posts %}
         <div class="post">
-            <h2>{{ post.title }}</h2>  <!-- Tiêu đề của bài viết. -->
-            <p>{{ post.content }}</p>  <!-- Nội dung của bài viết. -->
-            <p class="meta">Tác giả: {{ post.author.username }} | Ngày: {{ post.created_at }}</p>  <!-- Hiển thị tên tác giả và ngày tạo bài viết. -->
+            <!-- Tiêu đề bài viết -->
+            <h2>{{ post.title }}</h2>
+            <!-- Nội dung bài viết -->
+            <p>{{ post.content }}</p>
+            <!-- Hiển thị thông tin tác giả và ngày tạo bài viết -->
+            <p class="meta">Tác giả: {{ post.author.username }} | Ngày: {{ post.created_at }}</p>
         </div>
         {% endfor %}
     </div>
