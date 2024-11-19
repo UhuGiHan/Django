@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 from .models import Post
 from django.contrib import messages
 
+from django.utils.timezone import now
+from django.contrib.auth.decorators import login_required
+
 def index(request):
     posts = Post.objects.all()
     return render(request, 'myapp/index.html', {'posts': posts, 'user': request.user})
@@ -20,7 +23,7 @@ def login_view(request):
             login(request, user)
             return redirect('index')
         else:
-            messages.error(request, 'Invalid username or password.')
+            messages.error(request, 'Tên tài khoản hoặc mật khẩu sai.')
     return render(request, 'myapp/login.html')
 
 def register_view(request):
@@ -31,20 +34,18 @@ def register_view(request):
         if password == password_confirm:
             try:
                 User.objects.create_user(username=username, password=password)
-                messages.success(request, 'Registration successful. Please log in.')
+                messages.success(request, 'Đăng nhập thành công. Vui lòng đăng nhập.')
                 return redirect('login')
             except:
-                messages.error(request, 'Username already exists.')
+                messages.error(request, 'Tên tài khoản đã tồn tại.')
         else:
-            messages.error(request, 'Passwords do not match.')
+            messages.error(request, 'Mật khẩu không trùng khớp.')
     return render(request, 'myapp/register.html')
 
 def logout_view(request):
     logout(request)
     return redirect('index')
 
-from django.utils.timezone import now
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def create_post(request):
