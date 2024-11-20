@@ -14,9 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
+# Import các module cần thiết từ Django.
+from django.contrib import admin  # Quản lý admin của Django
+from django.urls import path, include  # path: Để định nghĩa các đường dẫn URL, include: Để kết nối với các file URLs khác
 
+# Danh sách các URL patterns của ứng dụng.
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # Đường dẫn tới trang admin của Django.
+    path('admin/', admin.site.urls),  # Định nghĩa đường dẫn cho trang admin, nơi quản trị viên có thể đăng nhập và quản lý dữ liệu.
+
+    # Kết nối với các URL patterns trong app 'myapp'.
+    path('', include('myapp.urls')),  # Định nghĩa đường dẫn gốc (trang chủ) và liên kết tới các URL của ứng dụng 'myapp'.
 ]
+
