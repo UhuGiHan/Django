@@ -18,4 +18,8 @@ urlpatterns = [
 
     # Định nghĩa đường dẫn cho trang tạo bài viết (create-post).
     path('create-post/', views.create_post, name='create_post'),  # Đường dẫn 'create-post/' sẽ gọi view create_post() để tạo bài viết mới.
+
+    path('', views.index, name='index'),
+    path('delete_post/<int:post_id>/', views.delete_post, name='delete_post'),
 ]
+

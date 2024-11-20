@@ -1,11 +1,28 @@
 # Import các module cần thiết từ Django.
-from django.shortcuts import render, redirect  # render: để trả về trang HTML, redirect: để chuyển hướng URL.
 from django.contrib.auth import authenticate, login, logout  # authenticate: xác thực người dùng, login: đăng nhập, logout: đăng xuất.
 from django.contrib.auth.models import User  # Đối tượng User dùng để quản lý người dùng.
 from .models import Post  # Import mô hình Post (bài viết) từ models của ứng dụng.
 from django.contrib import messages  # Để hiển thị thông báo cho người dùng.
 from django.contrib.auth.decorators import login_required  # Đảm bảo người dùng đã đăng nhập trước khi truy cập vào view.
 from django.utils.timezone import now  # Để lấy thời gian hiện tại.
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def delete_post(request, post_id):
+    # Lấy bài viết cần xóa
+    post = get_object_or_404(Post, id=post_id)
+
+    # Kiểm tra quyền superuser
+    if request.user.is_superuser:
+        post.delete()
+        messages.success(request, "Bài viết đã được xóa thành công.")
+    else:
+        messages.error(request, "Bạn không có quyền xóa bài viết này.")
+    
+    # Quay lại trang chủ sau khi xóa
+    return redirect('index')
 
 # Hàm xử lý trang chủ (hiển thị danh sách bài viết).
 def index(request):
@@ -60,7 +77,7 @@ def logout_view(request):
     return redirect('index')
 
 # Hàm xử lý tạo bài viết mới (chỉ cho người dùng đã đăng nhập).
-@login_required  # Chỉ cho phép người dùng đã đăng nhập mới có thể tạo bài viết.
+#@login_required  # Chỉ cho phép người dùng đã đăng nhập mới có thể tạo bài viết.
 def create_post(request):
     # Nếu người dùng gửi form tạo bài viết (POST request).
     if request.method == 'POST':
