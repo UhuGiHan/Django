@@ -1,4 +1,4 @@
-<!DOCTYPE html>  <!-- Định nghĩa loại tài liệu (HTML5) cho trang web. -->
+<!DOCTYPE html>
 <html>
 <head>
     {% load static %}  <!-- Tải các tệp tĩnh (static files) như hình ảnh, CSS, JS để có thể sử dụng trong template. -->
@@ -9,8 +9,17 @@
 <body>
     <!-- Div container chứa toàn bộ nội dung của trang đăng ký -->
     <div class="container">
-        <h2>Đăng ký</h2>  <!-- Tiêu đề của trang đăng ký. -->
+        <h2>Đăng ký tài khoản</h2>  <!-- Tiêu đề của trang đăng ký. -->
         
+        <!-- Kiểm tra và hiển thị thông báo lỗi hoặc thành công -->
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p class="message {{ message.tags }}">{{ message }}</p>  <!-- Hiển thị các thông báo -->
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <!-- Form đăng ký, gửi dữ liệu qua phương thức POST tới server. -->
         <form method="POST">
             {% csrf_token %}  <!-- Token bảo mật CSRF (Cross Site Request Forgery), giúp bảo vệ form khỏi các cuộc tấn công giả mạo. -->
@@ -20,11 +29,11 @@
             <input type="text" id="username" name="username" required>  <!-- Trường nhập tên người dùng, bắt buộc nhập. -->
             
             <!-- Trường nhập mật khẩu (password). -->
-            <label for="password">Password:</label>
+            <label for="password">Mật khẩu:</label>
             <input type="password" id="password" name="password" required>  <!-- Trường nhập mật khẩu, bắt buộc nhập, và ẩn các ký tự đã nhập. -->
             
             <!-- Trường nhập lại mật khẩu (password confirm). -->
-            <label for="password_confirm">Nhập lại password:</label>
+            <label for="password_confirm">Nhập lại mật khẩu:</label>
             <input type="password" id="password_confirm" name="password_confirm" required>  <!-- Trường nhập lại mật khẩu, bắt buộc nhập. -->
             
             <!-- Nút gửi form đăng ký. -->

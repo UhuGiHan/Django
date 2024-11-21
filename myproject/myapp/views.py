@@ -8,6 +8,8 @@ from django.utils.timezone import now  # Để lấy thời gian hiện tại.
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
+from .forms import re
+
 
 @login_required
 def delete_post(request, post_id):
@@ -55,19 +57,30 @@ def register_view(request):
         username = request.POST['username']
         password = request.POST['password']
         password_confirm = request.POST['password_confirm']
+        
         # Kiểm tra xem mật khẩu có khớp không.
-        if password == password_confirm:
-            try:
-                # Tạo tài khoản người dùng mới.
-                User.objects.create_user(username=username, password=password)
-                messages.success(request, 'Registration successful. Please log in.')
-                return redirect('login')
-            except:
-                # Nếu username đã tồn tại, hiển thị thông báo lỗi.
-                messages.error(request, 'Username already exists.')
-        else:
-            # Nếu mật khẩu không khớp, hiển thị thông báo lỗi.
+        if password != password_confirm:
             messages.error(request, 'Passwords do not match.')
+            return render(request, 'myapp/register.html')
+        
+        # Kiểm tra mật khẩu có chứa ít nhất một chữ cái in hoa và một con số không
+        if not re.search(r'[A-Z]', password):  # Kiểm tra có chữ in hoa
+            messages.error(request, 'Password must contain at least one uppercase letter.')
+            return render(request, 'myapp/register.html')
+        
+        if not re.search(r'[0-9]', password):  # Kiểm tra có số
+            messages.error(request, 'Password must contain at least one number.')
+            return render(request, 'myapp/register.html')
+
+        try:
+            # Tạo tài khoản người dùng mới.
+            User.objects.create_user(username=username, password=password)
+            messages.success(request, 'Registration successful. Please log in.')
+            return redirect('login')
+        except:
+            # Nếu username đã tồn tại, hiển thị thông báo lỗi.
+            messages.error(request, 'Username already exists.')
+
     return render(request, 'myapp/register.html')
 
 # Hàm xử lý đăng xuất.
