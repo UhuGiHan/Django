@@ -50,6 +50,7 @@ def logout_view(request):
 @login_required
 def create_post(request):
     if request.method == 'POST':
+<<<<<<< Updated upstream
         title = request.POST.get('title')
         content = request.POST.get('content')
         author = request.user  # Lấy username của người đang đăng nhập
@@ -58,6 +59,15 @@ def create_post(request):
             return redirect('index')
         else:
             messages.error(request, 'Vui lòng điền đầy đủ tiêu đề và nội dung.')
+=======
+        title = request.POST['title']  # Lấy tiêu đề bài viết.
+        content = request.POST['content']  # Lấy nội dung bài viết.
+        author = request.user  # Lấy tác giả là người dùng hiện tại.
+        # Tạo bài viết mới trong cơ sở dữ liệu.
+        Post.objects.create(title=title, content=content, author=author, created_at=now(), updated_at=now())
+        messages.success(request, 'Bài viết của bạn đã được đăng thành công.')
+        return redirect('index')
+>>>>>>> Stashed changes
     return render(request, 'myapp/create_post.html')
 
 
