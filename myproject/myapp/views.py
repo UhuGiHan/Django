@@ -65,11 +65,16 @@ def register_view(request):
         
         # Kiểm tra mật khẩu có chứa ít nhất một chữ cái in hoa và một con số không
         if not re.search(r'[A-Z]', password):  # Kiểm tra có chữ in hoa
-            messages.error(request, 'Password must contain at least one uppercase letter.')
+            messages.error(request, 'Mật khẩu phải chứa ít nhất một chữ cái viết hoa.')
             return render(request, 'myapp/register.html')
         
         if not re.search(r'[0-9]', password):  # Kiểm tra có số
-            messages.error(request, 'Password must contain at least one number.')
+            messages.error(request, 'Mật khẩu phải chứa ít nhất một số.')
+            return render(request, 'myapp/register.html')
+
+        # Kiểm tra mật khẩu có chứa ít nhất một ký tự đặc biệt
+        if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):  # Kiểm tra ký tự đặc biệt
+            messages.error(request, 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt.')
             return render(request, 'myapp/register.html')
 
         try:
