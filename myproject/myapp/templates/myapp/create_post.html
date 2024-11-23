@@ -1,34 +1,33 @@
-<!DOCTYPE html>  <!-- Định nghĩa loại tài liệu HTML5 cho trang web. -->
+<!DOCTYPE html>  
 <html>
 <head>
-    {% load static %}  <!-- Tải các tệp tĩnh (static files) như hình ảnh, CSS, JS để có thể sử dụng trong template. -->
-    <title>Viết bài</title>  <!-- Tiêu đề của trang sẽ xuất hiện trên thanh tiêu đề của trình duyệt. -->
-    <!-- Liên kết tới tệp CSS để tạo kiểu cho trang viết bài. -->
-    <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">  <!-- Tải tệp CSS từ thư mục static của ứng dụng 'myapp' để áp dụng kiểu cho trang. -->
+    {% load static %} 
+    <title>Viết bài</title>  
+   
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">  
 </head>
 <body>
-    <!-- Div container chứa nội dung trang viết bài. -->
     <div class="container">
-        <h2>Viết bài mới</h2>  <!-- Tiêu đề của trang viết bài, thông báo người dùng đang ở trang tạo bài viết mới. -->
+        <h2>Viết bài mới</h2>  
         
-        <!-- Form gửi bài viết mới, phương thức POST dùng để gửi dữ liệu lên server. -->
+        
         <form method="POST">
-            {% csrf_token %}  <!-- Token bảo mật CSRF (Cross Site Request Forgery), giúp bảo vệ form khỏi các cuộc tấn công giả mạo. -->
+            {% csrf_token %}  
             
-            <!-- Trường nhập tiêu đề bài viết -->
+            
             <label for="title">Tiêu đề:</label>
-            <input type="text" id="title" name="title" required>  <!-- Trường nhập liệu cho tiêu đề bài viết, bắt buộc phải nhập. -->
+            <input type="text" id="title" name="title" required>  
             
-            <!-- Trường nhập nội dung bài viết -->
+            
             <label for="content">Nội dung:</label>
-            <textarea id="content" name="content" rows="10" required></textarea>  <!-- Trường nhập liệu cho nội dung bài viết, có thể chứa nhiều dòng văn bản. -->
+            <textarea id="content" name="content" rows="10" required></textarea>  
             
-            <!-- Nút gửi form để đăng bài -->
-            <button type="submit">Đăng bài</button>  <!-- Nút submit, khi người dùng nhấn vào sẽ gửi dữ liệu bài viết đi. -->
+
+            <button type="submit">Đăng bài</button> 
         </form>
         
-        <!-- Liên kết quay lại trang chủ -->
-        <a href="{% url 'index' %}" class="back-link">Quay lại trang chủ</a>  <!-- Liên kết để người dùng quay lại trang chủ, sử dụng URL pattern với tên 'index'. -->
+       
+        <a href="{% url 'index' %}" class="back-link">Quay lại trang chủ</a>  
     </div>
 </body>
 </html>
