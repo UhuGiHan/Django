@@ -2,13 +2,7 @@ import re
 from django.core.exceptions import ValidationError
 
 def validate_password_strength(value):
-    """
-    Kiểm tra độ mạnh của mật khẩu:
-    - Ít nhất 6 ký tự
-    - Ít nhất 1 chữ cái viết hoa
-    - Ít nhất 1 số
-    - Ít nhất 1 ký tự đặc biệt
-    """
+
     if len(value) < 6:
         raise ValidationError('Mật khẩu phải có ít nhất 6 ký tự.')
     if not any(char.isupper() for char in value):

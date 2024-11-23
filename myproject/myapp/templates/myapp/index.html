@@ -3,7 +3,7 @@
 <head>
     {% load static %}
     <title>Blog Cá Nhân</title>
-    <!-- Link đến file CSS tĩnh để định dạng giao diện -->
+ 
     <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">
 </head>
 <body>
@@ -19,7 +19,7 @@
         </div>
     </header>
 
-    <!-- Hiển thị thông báo -->
+    
     {% if messages %}
         <ul>
             {% for message in messages %}
