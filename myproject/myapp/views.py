@@ -1,12 +1,11 @@
 from django.contrib.auth import authenticate, login, logout  
-from django.contrib.auth.models import User  
-from .models import Post  
+from django.contrib.auth.models import User    
 from django.contrib import messages  
 from django.contrib.auth.decorators import login_required  
 from django.utils.timezone import now  
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-
+from .models import Post, Comment
+from .forms import CommentForm
 from .forms import re
 
 
@@ -33,7 +32,7 @@ def login_view(request):
             login(request, user)
             return redirect('index')
         else:
-            messages.error(request, 'Invalid username or password.')
+            messages.error(request, 'Tên người dùng hoặc mật khẩu không hợp lệ.')
     return render(request, 'myapp/login.html')
 
 def register_view(request):
@@ -43,7 +42,7 @@ def register_view(request):
         password_confirm = request.POST['password_confirm']
         
         if password != password_confirm:
-            messages.error(request, 'Passwords do not match.')
+            messages.error(request, 'Mật khẩu không khớp.')
             return render(request, 'myapp/register.html')
         
         if not re.search(r'[A-Z]', password):  
@@ -60,10 +59,10 @@ def register_view(request):
 
         try:
             User.objects.create_user(username=username, password=password)
-            messages.success(request, 'Registration successful. Please log in.')
+            messages.success(request, 'Đăng ký thành công. Vui lòng đăng nhập.')
             return redirect('login')
         except:
-            messages.error(request, 'Username already exists.')
+            messages.error(request, 'Tên người dùng đã tồn tại.')
 
     return render(request, 'myapp/register.html')
 
@@ -83,3 +82,37 @@ def create_post(request):
         messages.success(request, 'Bài viết của bạn đã được đăng thành công.')
         return redirect('index')
     return render(request, 'myapp/create_post.html')
+def post_detail(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    comments = post.comments.all()  
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect('post_detail', post_id=post.id)
+
+    context = {
+        'post': post,
+        'comments': comments,
+        'form': form,
+    }
+    return render(request, 'myapp/post_detail.html', {'post': post})
+
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if request.user == comment.author or request.user.is_superuser:
+        comment.delete()
+    return redirect('post_detail', post_id=comment.post.id)
+def add_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        content = request.POST.get('content')  
+        if content:
+            Comment.objects.create(post=post, author=request.user, content=content)
+        return redirect('post_detail', post_id=post.id)

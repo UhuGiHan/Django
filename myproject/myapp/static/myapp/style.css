@@ -4,7 +4,7 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #f7f7f7;
 }
 
 /* Tiêu đề */
@@ -32,64 +32,25 @@ header a:hover {
     text-decoration: underline;
 }
 
-/*Nội dung chính*/
+/* Nội dung chính */
 .container {
-    width: 80%;
+    width: 100%;
+    max-width: 600px;
     margin: 20px auto;
+    background-color: #fff;
     padding: 20px;
-    background: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Kiểu dáng biểu mẫu */
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-form label {
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-form input, form textarea, form button {
-    margin-top: 5px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-form button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-form button:hover {
-    background-color: #45a049;
-}
-
-
-/*Liên kết quay lại */
-.back-link {
-    display: inline-block;
-    margin-top: 20px;
-    color: #4CAF50;
-    text-decoration: none;
-}
-
-.back-link:hover {
-    text-decoration: underline;
-}
-
-/*Danh sách bài viết*/
+/* Danh sách bài viết */
 .post {
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
 }
 
 .post h2 {
@@ -105,71 +66,83 @@ form button:hover {
     font-size: 14px;
     color: #999;
 }
-/* Nút xóa bài viết */
+
+/* Bình luận */
+.comments-section {
+    margin-top: 20px;
+}
+
+.comments-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comments-list li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+/* Form thêm bình luận */
+.add-comment-form {
+    margin-top: 15px; /* Giảm khoảng cách trên */
+}
+
+/* Kiểu dáng biểu mẫu */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    font-weight: normal; /* Đổi lại để đồng bộ với form bài viết */
+    margin-top: 8px; /* Giảm khoảng cách với các phần tử */
+    font-size: 14px;
+    color: #333;
+}
+
+form input, form textarea, form button {
+    margin-top: 5px;
+    padding: 8px; /* Giảm padding để form nhỏ gọn hơn */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px; /* Giảm kích thước font để vừa với form */
+}
+
+form textarea {
+    min-height: 80px; /* Điều chỉnh chiều cao cho textarea để phù hợp với kích thước */
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+/* Nút xóa */
 .delete-btn {
     color: red;
     text-decoration: none;
     font-weight: bold;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .delete-btn:hover {
     color: darkred;
     text-decoration: underline;
 }
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
-    margin: 0;
-    padding: 0;
-}
 
-.container {
-    width: 100%;
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    text-align: center;
-    color: #333;
-}
-
-label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: bold;
-}
-
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 8px;
-    margin: 5px 0 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
+/* Liên kết quay lại */
 .back-link {
-    display: block;
+    display: inline-block;
     text-align: center;
     margin-top: 20px;
     color: #007bff;
@@ -180,6 +153,7 @@ button:hover {
     text-decoration: underline;
 }
 
+/* Thông báo */
 .messages {
     margin-bottom: 20px;
     padding: 10px;

@@ -3,7 +3,6 @@
 <head>
     {% load static %}
     <title>BLOG Cá Nhân</title>
- 
     <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">
 </head>
 <body>
@@ -19,7 +18,6 @@
         </div>
     </header>
 
-    
     {% if messages %}
         <ul>
             {% for message in messages %}
@@ -35,8 +33,41 @@
             <p>{{ post.content }}</p>
             <p class="meta">Tác giả: {{ post.author.username }} | Ngày: {{ post.created_at }}</p>
 
+            <!-- Hiển thị nút xóa nếu là admin -->
             {% if user.is_superuser %}
                 <a href="{% url 'delete_post' post.id %}" class="delete-btn">Xóa</a>
+            {% endif %}
+
+            <!-- Bình luận -->
+            <div class="comments-section">
+                <h3>Bình luận</h3>
+                <ul class="comments-list">
+                    {% for comment in post.comments.all %}
+                        <li>
+                            <strong>{{ comment.author.username }}</strong> ({{ comment.created_at|date:"d-m-Y H:i" }}):
+                            <p>{{ comment.content }}</p>
+
+                            <!-- Hiển thị nút xóa nếu là admin hoặc người tạo bình luận -->
+                            {% if user.is_authenticated and user == comment.author or user.is_superuser %}
+                                <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                                    {% csrf_token %}
+                                     <button type="submit" class="delete-btn">Xóa</button>
+                                </form>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Form thêm bình luận -->
+            {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'add_comment' post.id %}" class="add-comment-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Thêm bình luận</button>
+                </form>
+            {% else %}
+                <p><a href="{% url 'login' %}">Đăng nhập</a> để thêm bình luận.</p>
             {% endif %}
         </div>
         {% endfor %}

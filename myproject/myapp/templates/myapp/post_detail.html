@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>{{ post.title }}</h1>
+        <p>Tác giả: {{ post.author.username }} | Ngày: {{ post.created_at }}</p>
+    </header>
+
+    <div class="container">
+        <p>{{ post.content }}</p>
+
+        <!-- Hiển thị bình luận -->
+        <div class="comments-section">
+            <h3>Bình luận</h3>
+            <ul class="comments-list">
+                {% for comment in post.comments.all %}
+                    <li>
+                        <strong>{{ comment.author.username }}</strong>:
+                        {{ comment.content }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Form thêm bình luận -->
+        {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'add_comment' post.id %}">
+                {% csrf_token %}
+                <textarea name="content" placeholder="Thêm bình luận..." required></textarea>
+                <button type="submit">Gửi</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">Đăng nhập</a> để bình luận.</p>
+        {% endif %}
+
+        <!-- Liên kết quay lại trang chính -->
+        <a href="{% url 'index' %}" class="back-link">Quay lại trang chính</a>
+    </div>
+</body>
+</html>
